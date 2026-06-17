@@ -2,9 +2,6 @@
 
 An end-to-end cloud deployment project that automates the continuous integration and continuous deployment (CI/CD) lifecycle of a ReactJS application. The frontend application is built, tested, and deployed entirely through automated pipelines into highly available Azure Storage static web containers.
 
-## 🚀 Live Demo
-The application is deployed and accessible at:
-👉 **[http://abdullah12345.z32.web.core.windows.net](http://abdullah12345.z32.web.core.windows.net)**
 
 ---
 
