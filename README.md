@@ -1,70 +1,63 @@
-# Getting Started with Create React App
+# Automated React CI/CD & Static Azure Web Hosting
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An end-to-end cloud deployment project that automates the continuous integration and continuous deployment (CI/CD) lifecycle of a ReactJS application. The frontend application is built, tested, and deployed entirely through automated pipelines into highly available Azure Storage static web containers.
 
-## Available Scripts
+## 🚀 Live Demo
+The application is deployed and accessible at:
+👉 **[http://abdullah12345.z32.web.core.windows.net](http://abdullah12345.z32.web.core.windows.net)**
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 🏗️ Architecture & Workflow
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. **Code Commit:** Developer pushes React code to the main branch on GitHub.
+2. **CI Trigger:** The Azure DevOps Pipeline automatically spins up an environment running **Node 18.x**.
+3. **Build & Compile:** The runner installs dependencies (`npm install`) and builds production-optimized static assets (`npm run build`).
+4. **CD Cloud Deployment:** The **Azure Blob File Copy** task securely authenticates with Azure and uploads the contents of the compiled `build/` folder directly to the `$web` storage container.
+5. **Static Hosting:** Azure Storage Account serves the single-page application (SPA) natively with low-latency delivery.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
 
-### `npm test`
+## 🛠️ Tech Stack & Key Concepts
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* **Frontend Framework:** React.js
+* **Runtime Environment:** Node.js (v18.x)
+* **CI/CD Orchestration:** Azure DevOps Pipelines
+* **Cloud Infrastructure:** Azure Blob Storage (Static Website Hosting)
+* **Identity & Access Management:** Azure Service Connections / RBAC Contributor access
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📋 Pipeline Configuration Summary
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The core automation is handled within Azure DevOps. The workflow includes the following pipeline steps:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **Node.js Tool Installer:** Sets the build agent environment to use modern `Node 18.x`.
+2. **npm install:** Restores and caches project dependencies.
+3. **npm run build:** Compiles the source files, generating a lean, optimized `build/` directory.
+4. **AzureBlob File Copy:** Extracts the compiled static assets and writes them to the `$web` destination container of the target Azure Storage account.
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## ⚙️ Client-Side Routing Fix (Handling 404s on Page Refresh)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To ensure that direct URLs and browser reloads (such as `/employee` or `/department`) route smoothly within a Single Page Application (SPA), the Azure Storage Account static website configuration is optimized by mapping the **Error document path** back to `index.html`. This ensures the client-side router handles deep links flawlessly.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+---
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 💻 How to Run Locally
 
-## Learn More
+To test the application or build scripts locally, clone the repository and execute the following commands:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+# Clone the repository
+git clone [https://github.com/abpatel12/react-azure-devops-cicd.git](https://github.com/abpatel12/react-azure-devops-cicd.git)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Install dependencies
+npm install
 
-### Code Splitting
+# Run the development server locally
+npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Test the production build locally
+npm run build
